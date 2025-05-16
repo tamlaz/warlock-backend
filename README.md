@@ -14,6 +14,6 @@ See [`go.mod`](./go.mod) for full list. Notable ones:
 ```bash
 git clone https://github.com/tamlaz/warlock-backend.git
 cd warlock-backend
-go mod tidy
+go mod download
 go run main.go
 
