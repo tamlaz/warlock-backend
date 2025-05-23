@@ -17,8 +17,8 @@ var jwtKey = []byte(os.Getenv("SECRET_KEY"))
 func Login() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input struct {
-			Email    string `json:email`
-			Password string `json:password`
+			Email    string `json:"email"`
+			Password string `json:"password"`
 		}
 
 		if err := ctx.ShouldBindJSON(&input); err != nil {
@@ -40,7 +40,7 @@ func Login() gin.HandlerFunc {
 		expirationTime := time.Now().Add(24 * time.Hour)
 		claims := &models.Claims{
 			Email: user.Email,
-			Role:  user.Role,
+			Roles: user.Roles,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(expirationTime),
 			},

@@ -12,19 +12,13 @@ import (
 func Signup() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input struct {
-			Email     string          `json:"email"`
-			Password  string          `json:"password"`
-			FirstName string          `json:"firstName"`
-			LastName  string          `json:"lastName"`
-			Role      models.UserRole `json:"role"`
+			Email     string `json:"email"`
+			Password  string `json:"password"`
+			FirstName string `json:"firstName"`
+			LastName  string `json:"lastName"`
 		}
 		if err := ctx.ShouldBindJSON(&input); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-			return
-		}
-
-		if input.Role != "TEACHER" && input.Role != "STUDENT" {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user role"})
 			return
 		}
 
@@ -35,12 +29,18 @@ func Signup() gin.HandlerFunc {
 		}
 
 		hashedPassword, _ := util.HashPassword(input.Password)
+
+		var studentRole models.Role
+		if err := config.DB.First(&studentRole, "name = ?", models.Student).Error; err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Student role not found in database"})
+			return
+		}
 		newUser := models.User{
 			Email:     input.Email,
 			Password:  hashedPassword,
 			FirstName: input.FirstName,
 			LastName:  input.LastName,
-			Role:      input.Role,
+			Roles:     []models.Role{studentRole},
 		}
 
 		if err := config.DB.Create(&newUser).Error; err != nil {

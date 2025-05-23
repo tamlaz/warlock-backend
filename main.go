@@ -23,8 +23,9 @@ func main() {
 			"message": "Warlock backend is up and running",
 		})
 	})
-	router.POST("/signup", controllers.Signup())
-	router.GET("/login", controllers.Login())
+	router.POST("/api/go/v1/signup", controllers.Signup())
+	router.GET("/api/go/v1/login", controllers.Login())
+	router.GET("/api/go/v1/validate-user", controllers.Login())
 
 	router.Run(":8080")
 }
