@@ -29,6 +29,8 @@ func ConnectDB() {
 	}
 
 	database.AutoMigrate(&models.User{})
+	database.AutoMigrate(&models.Role{})
+	database.AutoMigrate(&models.Qa{})
 
 	DB = database
 

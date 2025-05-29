@@ -4,6 +4,7 @@ import (
 	"log"
 	"warlock-backend/config"
 	"warlock-backend/controllers"
+	"warlock-backend/cron"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -15,6 +16,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	config.ConnectDB()
+	cron.CleanUpQaJob()
 
 	router := gin.Default()
 
