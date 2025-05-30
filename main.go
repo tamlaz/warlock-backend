@@ -31,7 +31,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	router.GET("/", func(ctx *gin.Context) {
+	router.GET("/health", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"message": "Warlock backend is up and running",
 		})

@@ -27,7 +27,7 @@ All routes below assume the server is running locally on **`http://localhost:808
 
 | Method | Path                         | Purpose                            | Auth required
 |--------|------------------------------|------------------------------------|--------------
-| GET    | `/`                          | Health-check (“Is backend alive?”) | ❌           
+| GET    | `/health`                          | Health-check (“Is backend alive?”) | ❌           
 | POST   | `/api/go/v1/signup`          | Register a new user                | ❌           
 | POST   | `/api/go/v1/login`           | Authenticate user & receive JWT    | ❌           
 | POST   | `/api/go/v1/validate-user`   | Validate a JWT and fetch user info | ✅ (JWT)     
@@ -39,7 +39,7 @@ All routes below assume the server is running locally on **`http://localhost:808
 Health-check endpoint.
 
 ```bash
-curl http://localhost:8080/
+curl http://localhost:8080/health
 ```
 
 **Response:**
