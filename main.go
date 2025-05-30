@@ -18,7 +18,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	config.ConnectDB()
-	cron.CleanUpQaJob()
+	go cron.CleanUpQaJob()
 
 	router := gin.Default()
 
@@ -40,5 +40,6 @@ func main() {
 	router.POST("/api/go/v1/login", controllers.Login())
 	router.POST("/api/go/v1/validate-user", controllers.ValidateUser())
 
+	log.Println("Starting server on port 8080...")
 	router.Run(":8080")
 }
