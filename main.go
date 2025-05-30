@@ -38,7 +38,7 @@ func main() {
 	})
 	router.POST("/api/go/v1/signup", controllers.Signup())
 	router.POST("/api/go/v1/login", controllers.Login())
-	router.GET("/api/go/v1/validate-user", controllers.Login())
+	router.POST("/api/go/v1/validate-user", controllers.ValidateUser())
 
 	router.Run(":8080")
 }

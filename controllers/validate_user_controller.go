@@ -9,11 +9,15 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func ValidateUser(token string) gin.HandlerFunc {
+func ValidateUser() gin.HandlerFunc {
+
 	return func(ctx *gin.Context) {
+		var input struct {
+			Token string `json:"token"`
+		}
 		claims := &models.Claims{}
 
-		token, err := jwt.ParseWithClaims(token, claims, func(t *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(input.Token, claims, func(t *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
 		})
 
