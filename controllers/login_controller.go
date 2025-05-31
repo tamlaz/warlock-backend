@@ -32,6 +32,11 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
+		if user.IsBanned {
+			ctx.JSON(http.StatusForbidden, gin.H{"error": "User is banned"})
+			return
+		}
+
 		if !util.CheckPassword(user.Password, input.Password) {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid password"})
 			return

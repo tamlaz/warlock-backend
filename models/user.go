@@ -7,4 +7,6 @@ type User struct {
 	FirstName string `gorm:"not null"`
 	LastName  string `gorm:"not null"`
 	Roles     []Role `gorm:"many2many:user_roles"`
+	IsBanned  bool   `gorm:"not null"`
+	Strikes   int    `gorm:"not null"`
 }

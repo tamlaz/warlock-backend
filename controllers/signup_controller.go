@@ -41,6 +41,8 @@ func Signup() gin.HandlerFunc {
 			FirstName: input.FirstName,
 			LastName:  input.LastName,
 			Roles:     []models.Role{studentRole},
+			IsBanned:  false,
+			Strikes:   0,
 		}
 
 		if err := config.DB.Create(&newUser).Error; err != nil {
