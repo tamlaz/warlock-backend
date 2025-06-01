@@ -38,7 +38,7 @@ func main() {
 	})
 	router.POST("/api/go/v1/signup", controllers.Signup())
 	router.POST("/api/go/v1/login", controllers.Login())
-	router.POST("/api/go/v1/validate-user", controllers.ValidateUser())
+	router.GET("/api/go/v1/validate-user", controllers.ValidateUser())
 	router.PUT("/api/go/v1/add-strike-to-user", controllers.AddStrikeToUser())
 	router.GET("/ws", func(c *gin.Context) {
 		config.WsHandler(c.Writer, c.Request)
