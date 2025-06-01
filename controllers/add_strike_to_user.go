@@ -34,6 +34,17 @@ func AddStrikeToUser() gin.HandlerFunc {
 			return
 		}
 
+		if user.Strikes == 10 {
+			if err := config.DB.Model(&user).Update("is_banned", true).Error; err != nil {
+				ctx.JSON(http.StatusInternalServerError, gin.H{
+					"error":   "Could not update isBanned flag on user",
+					"details": err.Error(),
+				})
+				return
+			}
+			config.BroadcastToTopic("ban", gin.H{"userId": user.ID})
+		}
+
 		ctx.JSON(http.StatusOK, gin.H{"message": "User's number of strikes successfully implemented"})
 
 	}
