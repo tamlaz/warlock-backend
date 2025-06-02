@@ -11,9 +11,9 @@ import (
 func SaveQa() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input struct {
-			UserId   uint   `json:"userId"`
-			Question string `json:"question"`
-			Answer   string `json:"answer"`
+			UserId              uint   `json:"user_id"`
+			HumanMessageContent string `json:"human_message_content"`
+			AiMessageContent    string `json:"ai_message_content"`
 		}
 
 		if err := ctx.ShouldBindJSON(&input); err != nil {
@@ -21,15 +21,16 @@ func SaveQa() gin.HandlerFunc {
 			return
 		}
 
-		if err := config.DB.Where("id = ?", input.UserId).First(&models.User{}).Error; err != nil {
+		var user models.User
+		if err := config.DB.Where("id = ?", input.UserId).First(&user).Error; err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "User does not exist"})
 			return
 		}
 
 		qa := models.Qa{
-			UserId:   input.UserId,
-			Question: input.Question,
-			Answer:   input.Answer,
+			User:     user,
+			Question: input.HumanMessageContent,
+			Answer:   input.AiMessageContent,
 		}
 		if err := config.DB.Create(&qa).Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error during saving qa to DB"})

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 	"warlock-backend/config"
 	"warlock-backend/models"
@@ -14,7 +13,7 @@ func ValidateUser() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {
 		var input struct {
-			Token string `json:"token"`
+			WarlockApiKey string `json:"warlock_api_key"`
 		}
 		claims := &models.Claims{}
 
@@ -23,12 +22,9 @@ func ValidateUser() gin.HandlerFunc {
 			return
 		}
 
-		token, err := jwt.ParseWithClaims(input.Token, claims, func(t *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(input.WarlockApiKey, claims, func(t *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
 		})
-
-		log.Printf("Token: %v", token)
-		log.Printf("Error: %v", err)
 
 		if err != nil || !token.Valid {
 			ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})

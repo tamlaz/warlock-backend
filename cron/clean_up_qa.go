@@ -54,6 +54,7 @@ func CleanUpQaJob() {
 }
 
 func RemoveQaOlderThanFiveMinutes() {
+	log.Println("Removing old QA history")
 	cutoff := time.Now().Add(-5 * time.Minute)
 	if err := config.DB.Where("created_at < ?", cutoff).Delete(&models.Qa{}).Error; err != nil {
 		panic(err)
