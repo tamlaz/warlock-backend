@@ -27,7 +27,7 @@ func Login() gin.HandlerFunc {
 		}
 
 		var user models.User
-		if err := config.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
+		if err := config.DB.Preload("Roles").Where("email = ?", input.Email).First(&user).Error; err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid email"})
 			return
 		}
@@ -42,10 +42,15 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
+		roleNames := make([]models.RoleName, len(user.Roles))
+		for i, role := range user.Roles {
+			roleNames[i] = role.Name
+		}
+
 		expirationTime := time.Now().Add(24 * time.Hour)
 		claims := &models.Claims{
 			Email: user.Email,
-			Roles: user.Roles,
+			Roles: roleNames,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(expirationTime),
 			},
