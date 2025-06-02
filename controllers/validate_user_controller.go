@@ -42,8 +42,8 @@ func ValidateUser() gin.HandlerFunc {
 		}
 
 		ctx.JSON(http.StatusOK, gin.H{
-			"userId": user.ID,
-			"roles":  claims.Roles,
+			"user_id": user.ID,
+			"user_roles":  claims.Roles,
 		})
 	}
 }
