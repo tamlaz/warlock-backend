@@ -14,7 +14,7 @@ import (
 func AddStrikeToUser() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input struct {
-			UserId uint `json:"userId"`
+			UserId uint `json:"user_id"`
 		}
 
 		if err := ctx.ShouldBindJSON(&input); err != nil {
