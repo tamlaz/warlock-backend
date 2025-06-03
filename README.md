@@ -17,6 +17,12 @@ go mod download
 go run main.go
 ```
 
+## Running the app as a Docker container
+```bash
+cd warlock-backend
+docker compose -f docker-compose-go.yml up -d
+```
+
 ## 📡 API Endpoints
 
 All routes assume the server is running locally on http://localhost:8080.
