@@ -32,9 +32,7 @@ func main() {
 	}))
 
 	router.GET("/health", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "Warlock backend is up and running",
-		})
+		ctx.JSON(200, "Warlock backend is up and running")
 	})
 	router.POST("/api/go/v1/signup", controllers.Signup())
 	router.POST("/api/go/v1/login", controllers.Login())
