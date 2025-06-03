@@ -137,7 +137,7 @@ Response:
 Retrieves AI message history for a specific user.
 
 ```bash
-curl http://localhost:8080/api/go/v1/get-conversation-history?user_id=1
+curl "http://localhost:8080/api/go/v1/get-conversation-history?user_id=1"
 ```
 
 Response:
