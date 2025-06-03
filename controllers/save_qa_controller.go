@@ -12,6 +12,8 @@ func SaveQa() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input struct {
 			UserId              uint   `json:"user_id"`
+			TopicId             uint   `json:"topic_id"`
+			SubjectId           uint   `json:"subject_id"`
 			HumanMessageContent string `json:"human_message_content"`
 			AiMessageContent    string `json:"ai_message_content"`
 		}
@@ -28,9 +30,11 @@ func SaveQa() gin.HandlerFunc {
 		}
 
 		qa := models.Qa{
-			User:     user,
-			Question: input.HumanMessageContent,
-			Answer:   input.AiMessageContent,
+			User:      user,
+			Question:  input.HumanMessageContent,
+			Answer:    input.AiMessageContent,
+			SubjectId: input.SubjectId,
+			TopicId:   input.TopicId,
 		}
 		if err := config.DB.Create(&qa).Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error during saving qa to DB"})

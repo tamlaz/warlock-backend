@@ -5,11 +5,10 @@ My main purpose with this project is to get familiar with Go and its ecosystem.
 
 ## 📦 Dependencies
 
-See `go.mod` for the full list. Notable ones: github.com/gin-gonic/gin, gorm.io/gorm, gorm.io/driver/postgres, github.com/gorilla/websocket
+See `go.mod` for the full list. Notable ones:  
+`github.com/gin-gonic/gin`, `gorm.io/gorm`, `gorm.io/driver/postgres`, `github.com/gorilla/websocket`
 
 ## 🛠️ Installation
-
-Clone the repo, download dependencies, and run:
 
 git clone https://github.com/tamlaz/warlock-backend.git  
 cd warlock-backend  
@@ -20,14 +19,16 @@ go run main.go
 
 All routes assume the server is running locally on http://localhost:8080.
 
-| Method | Path                                | Purpose                               | Auth required 
-|--------|-------------------------------------|---------------------------------------|---------------
-| GET    | /health                             | Health-check (“Is backend alive?”)    | ❌            
-| POST   | /api/go/v1/signup                   | Register a new user                   | ❌            
-| POST   | /api/go/v1/login                    | Authenticate user & receive JWT       | ❌            
-| GET   | /api/go/v1/validate-user            | Validate a JWT and fetch user info    | ❌      
-| PUT    | /api/go/v1/add-strike-to-user       | Increment a user's strike count       | ❌    
-| GET    | /ws                                 | Subscribe to real-time ban events     | ❌            
+| Method | Path                                  | Purpose                               | Auth required |
+|--------|-------------------------------------|-------------------------------------|---------------|
+| GET    | /health                             | Health-check (“Is backend alive?”)  | ❌            |
+| POST   | /api/go/v1/signup                   | Register a new user                 | ❌            |
+| POST   | /api/go/v1/login                    | Authenticate user & receive JWT     | ❌            |
+| POST   | /api/go/v1/validate-user            | Validate a JWT and fetch user info  | ❌            |
+| PUT    | /api/go/v1/add-strike-to-user       | Increment a user's strike count     | ❌            |
+| POST   | /api/go/v1/save-qa                  | Save a new Q&A message pair         | ❌            |
+| GET    | /api/go/v1/get-conversation-history | Retrieve AI message history for user| ❌            |
+| GET    | /ws                                 | Subscribe to real-time ban events   | ❌            |
 
 ### GET /health
 
@@ -82,19 +83,36 @@ curl -X PUT http://localhost:8080/api/go/v1/add-strike-to-user \
 Response:  
 { "message": "User's number of strikes successfully implemented" }
 
+### POST /api/go/v1/save-qa
+
+Saves a Q&A message pair associated with a user.
+
+curl -X POST http://localhost:8080/api/go/v1/save-qa \
+  -H "Content-Type: application/json" \
+  -d '{"user_id": 1, "topic_id": 5, "subject_id": 3, "human_message_content": "What is Go?", "ai_message_content": "Go is a statically typed language."}'
+
+Response:  
+{ "message": "New QA record saved successfully" }
+
+### GET /api/go/v1/get-conversation-history
+
+Retrieves AI message history for a specific user.
+
+curl http://localhost:8080/api/go/v1/get-conversation-history?user_id=1
+
+Response:  
+[
+  { "messageContent": "Go is a statically typed language.", "messageType": "AI" },
+  { "messageContent": "Go has excellent concurrency support.", "messageType": "AI" }
+]
+
 ### GET /ws
 
-A WebSocket endpoint that broadcasts a real-time event to subscribed clients when a user is banned (i.e., when they reach 10 strikes). To listen:
+A WebSocket endpoint that broadcasts a real-time event when a user is banned (upon reaching 10 strikes).
 
-Use a WebSocket client (e.g., browser or wscat):
+Use a WebSocket client to connect:
 
 wscat -c ws://localhost:8080/ws
 
 When a user reaches 10 strikes, the backend emits:  
 { "userId": 1 }
-
-## 🔐 Working with JWTs locally
-
-1. Sign up with your email and password.  
-2. Log in to receive a JWT token.  
-3. Use the token for protected endpoints by including it in the Authorization header or request body, depending on implementation.

@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"warlock-backend/config"
 	"warlock-backend/models"
 
@@ -34,7 +37,12 @@ func AddStrikeToUser() gin.HandlerFunc {
 			return
 		}
 
-		if user.Strikes == 10 {
+		maxStrikes, err := strconv.Atoi(os.Getenv("MAX_STRIKES"))
+		if err != nil {
+			log.Println("Failed to load max strikes from env")
+			maxStrikes = 10
+		}
+		if user.Strikes == maxStrikes {
 			if err := config.DB.Model(&user).Update("is_banned", true).Error; err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"error":   "Could not update isBanned flag on user",
@@ -45,7 +53,7 @@ func AddStrikeToUser() gin.HandlerFunc {
 			config.BroadcastToTopic("ban", gin.H{"userId": user.ID})
 		}
 
-		ctx.JSON(http.StatusOK, gin.H{"message": "User's number of strikes successfully implemented"})
+		ctx.JSON(http.StatusOK, "User's number of strikes successfully implemented")
 
 	}
 }

@@ -50,6 +50,6 @@ func Signup() gin.HandlerFunc {
 			return
 		}
 
-		ctx.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+		ctx.JSON(http.StatusCreated, "User created successfully")
 	}
 }

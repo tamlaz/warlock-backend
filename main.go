@@ -41,6 +41,7 @@ func main() {
 	router.POST("/api/go/v1/validate-user", controllers.ValidateUser())
 	router.PUT("/api/go/v1/add-strike-to-user", controllers.AddStrikeToUser())
 	router.POST("/api/go/v1/save-qa", controllers.SaveQa())
+	router.GET("api/go/v1/get-conversation-history", controllers.GetConversationHistory())
 	router.GET("/ws", func(c *gin.Context) {
 		config.WsHandler(c.Writer, c.Request)
 	})

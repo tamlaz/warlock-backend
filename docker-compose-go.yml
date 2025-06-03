@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  warlock-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: warlock-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - warlock-network  # Add this line
+
+networks:
+  warlock-network:
+    name: warlock-network
+    external: true
