@@ -11,3 +11,9 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    networks:
+      - "warlock-compose-ds_warlock-network"
+
+networks:
+  warlock-compose-ds_warlock-network:
+    external: true
