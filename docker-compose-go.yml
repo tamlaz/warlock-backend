@@ -11,10 +11,3 @@ services:
     env_file:
       - .env
     restart: unless-stopped
-    networks:
-      - warlock-network
-
-networks:
-  warlock-network:
-    name: warlock-network
-    external: true
