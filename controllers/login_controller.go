@@ -49,8 +49,9 @@ func Login() gin.HandlerFunc {
 
 		expirationTime := time.Now().Add(24 * time.Hour)
 		claims := &models.Claims{
-			Email: user.Email,
-			Roles: roleNames,
+			Email:  user.Email,
+			Roles:  roleNames,
+			UserID: user.ID,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(expirationTime),
 			},
