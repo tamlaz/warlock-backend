@@ -13,6 +13,13 @@ services:
     restart: unless-stopped
     networks:
       - "warlock-compose-ds_warlock-network"
+    volumes:
+      - shared-filestore:/app/filestore
+
+volumes:
+  shared-filestore:
+    name: shared-filestore
+    driver: local
 
 networks:
   warlock-compose-ds_warlock-network:
