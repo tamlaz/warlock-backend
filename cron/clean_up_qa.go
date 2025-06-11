@@ -48,9 +48,7 @@ func CleanUpQaJob() {
 		os.Exit(0)
 	}()
 
-	for {
-
-	}
+	select {}
 }
 
 func RemoveQaOlderThanFiveMinutes() {
