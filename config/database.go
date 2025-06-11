@@ -31,7 +31,11 @@ func ConnectDB() {
 	database.AutoMigrate(&models.User{})
 	database.AutoMigrate(&models.Role{})
 	database.AutoMigrate(&models.Qa{})
-	seedRoles(database)
+	database.AutoMigrate(&models.Document{})
+	database.AutoMigrate(&models.Subject{})
+	database.AutoMigrate(&models.Topic{})
+	SeedRoles(database)
+	SeedSubjects(database)
 
 	DB = database
 

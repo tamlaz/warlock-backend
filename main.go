@@ -37,9 +37,13 @@ func main() {
 	router.POST("/api/go/v1/signup", controllers.Signup())
 	router.POST("/api/go/v1/login", controllers.Login())
 	router.POST("/api/go/v1/validate-user", controllers.ValidateUser())
+	router.POST("/api/go/v1/validate-user-document-qa", controllers.ValidateUserDocumentQa())
 	router.PUT("/api/go/v1/add-strike-to-user", controllers.AddStrikeToUser())
+	router.POST("/api/go/v1/save-document", controllers.SaveDocument())
 	router.POST("/api/go/v1/save-qa", controllers.SaveQa())
 	router.GET("api/go/v1/get-conversation-history", controllers.GetConversationHistory())
+	router.GET("api/go/v1/get-subjects", controllers.GetSubjects())
+	router.GET("api/go/v1/get-topics", controllers.GetTopics())
 	router.GET("/ws", func(c *gin.Context) {
 		config.WsHandler(c.Writer, c.Request)
 	})

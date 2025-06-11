@@ -36,6 +36,9 @@ All routes assume the server is running locally on http://localhost:8080.
 | PUT    | /api/go/v1/add-strike-to-user         | Increment a user's strike count       | ❌            |
 | POST   | /api/go/v1/save-qa                    | Save a new Q&A message pair           | ❌            |
 | GET    | /api/go/v1/get-conversation-history   | Retrieve AI message history for user  | ❌            |
+| GET    | /api/go/v1/get-subjects               | Retrieve subjects                     | ❌            |
+| GET    | /api/go/v1/get-topics                 | Retrieve topics                       | ❌            |
+| POST   | /api/go/v1/validate-user-document-qa  | Validate a JWT and subject-topic,fetch user info    | ❌            |
 | GET    | /ws                                   | Subscribe to real-time ban events     | ❌            |
 
 ### GET /health
@@ -148,6 +151,48 @@ Response:
   { "message_content": "Go has excellent concurrency support.", "message_type": "AI" }
 ]
 ```
+
+### GET /api/go/v1/get-subjects
+
+Retrieve all subjects
+
+```bash
+curl "http://localhost:8080/api/go/v1/get-subjects"
+```
+
+Response:
+```json
+[{"id":1,"name":"Fizika"},{"id":2,"name":"Földrajz"},{"id":3,"name":"Idegen nyelv (angol)"},{"id":4,"name":"Magyar nyelv és irodalom"},{"id":5,"name":"Matematika"},{"id":6,"name":"Történelem"},{"id":7,"name":"Biológia"},{"id":8,"name":"Kémia"}]
+```
+
+### GET /api/go/v1/get-topics
+
+Retrieve all topics related to a subject
+
+```bash
+curl "http://localhost:8080/api/go/v1/get-topics?subjectId=1"
+```
+
+Response:
+```json
+[{"id":1,"name":"Mozgások és erők","subjectId":1},{"id":2,"name":"Energiafajták és megmaradás","subjectId":1},{"id":3,"name":"Hőtan","subjectId":1},{"id":4,"name":"Elektromosság és mágnesesség","subjectId":1},{"id":5,"name":"Fénytan és hangtan","subjectId":1}]
+```
+
+### POST /api/go/v1/validate-user-document-qa
+
+Validates a JWT and fetches user information.
+
+```bash
+curl -X POST http://localhost:8080/api/go/v1/validate-user-document-qa \
+  -H "Content-Type: application/json" \
+  -d '{"warlock_api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6...", "subject_id": 1, "topic_id":1}'
+```
+
+Response:
+
+```json
+{ "user_id": 1, "roles": ["Student"] }
+
 
 ### GET /ws
 

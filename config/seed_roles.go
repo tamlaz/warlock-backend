@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func seedRoles(db *gorm.DB) {
+func SeedRoles(db *gorm.DB) {
 	roles := []models.Role{
 		{Name: models.Student},
 		{Name: models.Teacher},
