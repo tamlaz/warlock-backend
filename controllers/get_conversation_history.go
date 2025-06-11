@@ -26,7 +26,7 @@ func GetConversationHistory() gin.HandlerFunc {
 		}
 
 		var qaHistory []models.Qa
-		if err := config.DB.Where("user_id = ?", userId).Find(&qaHistory).Error; err != nil {
+		if err := config.DB.Where("user_id = ?", userId).Find(&qaHistory).Order("created_at").Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching conversation history"})
 			log.Printf("Error fetching conversation history: %v", err.Error())
 			return
@@ -34,14 +34,23 @@ func GetConversationHistory() gin.HandlerFunc {
 
 		log.Println(qaHistory)
 
-		results := make([]models.HistoryMessage, len(qaHistory))
+		lenQa := len(qaHistory)
+		results := make([]models.HistoryMessage, lenQa*2)
 
-		for i, qa := range qaHistory {
-			historyMessage := models.HistoryMessage{
+		index := 0
+		for _, qa := range qaHistory {
+			historyMessageHuman := models.HistoryMessage{
+				MessageContent: qa.Question,
+				MessageType:    "HUMAN",
+			}
+			results[index] = historyMessageHuman
+			index++
+			historyMessageAi := models.HistoryMessage{
 				MessageContent: qa.Answer,
 				MessageType:    "AI",
 			}
-			results[i] = historyMessage
+			results[index] = historyMessageAi
+			index++
 		}
 
 		ctx.JSON(http.StatusOK, results)
