@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"warlock-backend/config"
 	"warlock-backend/models"
+	"warlock-backend/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -80,6 +81,9 @@ func SaveDocument() gin.HandlerFunc {
 			"file_name": document.FileName,
 			"path":      document.FilePath,
 		})
+
+		// TODO: get userId from jwt
+		services.NotifyAiService(document, 1, uint(subjectId), uint(topicId))
 
 	}
 }
