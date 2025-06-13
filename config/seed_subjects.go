@@ -9,61 +9,61 @@ import (
 
 func SeedSubjects(db *gorm.DB) {
 	subjects := map[string][]string{
-		"Magyar nyelv és irodalom": {
-			"Nyelvtani alapismeretek (szófajok, mondatfajták)",
-			"Helyesírás és fogalmazás",
-			"Kommunikáció és stílus",
-			"Irodalmi korszakok (pl. romantika)",
-			"Műelemzés",
+		"Hungarian Language and Literature": {
+			"Basic grammar knowledge (parts of speech, sentence types)",
+			"Spelling and composition",
+			"Communication and style",
+			"Literary periods (e.g., Romanticism)",
+			"Literary analysis",
 		},
-		"Matematika": {
-			"Alapműveletek és számfogalom",
-			"Törtek, tizedes törtek, arányok",
-			"Geometria",
-			"Függvények és egyenletek",
-			"Valószínűség és statisztika",
+		"Mathematics": {
+			"Basic operations and number concepts",
+			"Fractions, decimals, and ratios",
+			"Geometry",
+			"Functions and equations",
+			"Probability and statistics",
 		},
-		"Történelem": {
-			"Az ókör civilizációi (pl. Egyiptom)",
-			"A középkor társadalma és gazdasága",
-			"A magyar történelem fordulópontjai (honfoglalás)",
-			"A két világháború és következményei",
-			"A 20-21. század társadalmi és politikai változásai",
+		"History": {
+			"Ancient civilizations (e.g., Egypt)",
+			"Medieval society and economy",
+			"Turning points in Hungarian history (e.g., Conquest of the Carpathian Basin)",
+			"The two world wars and their consequences",
+			"Social and political changes in the 20th–21st centuries",
 		},
-		"Biológia": {
-			"Az élőlények rendszerezése",
-			"Az emberi test felépítése",
-			"Növények és állatok életfolyamatai",
-			"Ökológia és környezetvédelem",
-			"Genetika és öröklődés",
+		"Biology": {
+			"Classification of living organisms",
+			"Structure of the human body",
+			"Life processes of plants and animals",
+			"Ecology and environmental protection",
+			"Genetics and inheritance",
 		},
-		"Kémia": {
-			"Anyagok tulajdonságai és változásai",
-			"Kémiai reakciók és egyenletek",
-			"A periódusos rendszer és elemek",
-			"Savak, bázisok, sók",
-			"Szerves kémia alapjai",
+		"Chemistry": {
+			"Properties and changes of substances",
+			"Chemical reactions and equations",
+			"Periodic table and elements",
+			"Acids, bases, and salts",
+			"Basics of organic chemistry",
 		},
-		"Fizika": {
-			"Mozgások és erők",
-			"Energiafajták és megmaradás",
-			"Hőtan",
-			"Elektromosság és mágnesesség",
-			"Fénytan és hangtan",
+		"Physics": {
+			"Motion and forces",
+			"Types and conservation of energy",
+			"Thermodynamics",
+			"Electricity and magnetism",
+			"Optics and acoustics",
 		},
-		"Földrajz": {
-			"A föld szerkezete és mozgásai",
-			"Éghajlatok és időjárás",
-			"Kontinensek, országok, régiók",
-			"Természeti erőforrások és környezeti problémák",
-			"Magyarország földrajza",
+		"Geography": {
+			"Structure and movements of the Earth",
+			"Climates and weather",
+			"Continents, countries, and regions",
+			"Natural resources and environmental issues",
+			"Geography of Hungary",
 		},
-		"Idegen nyelv (angol)": {
-			"Alapszókincs és nyelvtan",
-			"Mindennapi kommunikációs helyzetek",
-			"Levél- és fogalmazásírás",
-			"Hallott szöveg értése",
-			"Kultúrák és országismeret",
+		"Foreign Language (English)": {
+			"Basic vocabulary and grammar",
+			"Everyday communication situations",
+			"Writing letters and compositions",
+			"Listening comprehension",
+			"Culture and country knowledge",
 		},
 	}
 
