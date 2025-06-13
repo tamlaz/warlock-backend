@@ -16,6 +16,11 @@ import (
 
 func SaveDocument() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		claims, err := services.GetClaimsFromAuthHeader(ctx)
+		if err != nil {
+			ctx.JSON(http.StatusUnauthorized, "Invalid or missing token: "+err.Error())
+		}
+
 		subjectIdStr := ctx.PostForm("subjectId")
 		topicIdStr := ctx.PostForm("topicId")
 
@@ -82,8 +87,7 @@ func SaveDocument() gin.HandlerFunc {
 			"path":      document.FilePath,
 		})
 
-		// TODO: get userId from jwt
-		services.NotifyAiService(document, 1, uint(subjectId), uint(topicId))
+		services.NotifyAiService(document, claims.UserID, uint(subjectId), uint(topicId))
 
 	}
 }
