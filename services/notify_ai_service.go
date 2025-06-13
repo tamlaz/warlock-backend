@@ -13,13 +13,20 @@ const documentIngestionUrl string = "/document-ingestion"
 
 func NotifyAiService(document models.Document, userId uint, subjectId uint, topicId uint) {
 	go func(doc models.Document) {
-		var payload struct {
+		payload := struct {
 			UserId       uint   `json:"user_id"`
 			SubjectId    uint   `json:"subject_id"`
 			TopicId      uint   `json:"topic_id"`
 			DocumentId   uint   `json:"document_id"`
 			DocumentPath string `json:"document_path"`
 			DocumentType string `json:"document_type"`
+		}{
+			UserId:       userId,
+			SubjectId:    subjectId,
+			TopicId:      topicId,
+			DocumentId:   doc.ID,
+			DocumentPath: doc.FilePath,
+			DocumentType: doc.DocumentType,
 		}
 
 		jsonData, err := json.Marshal(payload)

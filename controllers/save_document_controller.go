@@ -62,6 +62,18 @@ func SaveDocument() gin.HandlerFunc {
 		}
 		defer out.Close()
 
+		ext := filepath.Ext(header.Filename)
+		documentType := ""
+		if ext == ".pdf" {
+			documentType = "PDF"
+		} else if ext == ".html" {
+			documentType = "HTML"
+		}
+		if documentType == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Only PDF and HTML files are allowed"})
+			return
+		}
+
 		_, fileSaveError := out.ReadFrom(file)
 		if fileSaveError != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file"})
@@ -69,10 +81,11 @@ func SaveDocument() gin.HandlerFunc {
 		}
 
 		document := models.Document{
-			FileName:  header.Filename,
-			FilePath:  destDirectory,
-			SubjectId: uint(subjectId),
-			TopicId:   uint(topicId),
+			FileName:     header.Filename,
+			FilePath:     destDirectory,
+			SubjectId:    uint(subjectId),
+			TopicId:      uint(topicId),
+			DocumentType: documentType,
 		}
 		if err := config.DB.Create(&document).Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file metadata"})
