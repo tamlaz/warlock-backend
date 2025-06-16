@@ -38,7 +38,7 @@ func NotifyAiService(document models.Document, userId uint, subjectId uint, topi
 		warlockAiServiceBaseUrl := os.Getenv("WARLOCK_AI_BASE_URL")
 		warlockAiApiVersion := os.Getenv("WARLOCK_AI_API_VERSION")
 		warlockAiApiPathPrefix := os.Getenv("WARLOCK_AI_API_PATH_PREFIX")
-		response, err := http.Post(warlockAiServiceBaseUrl+warlockAiApiVersion+warlockAiApiPathPrefix+documentIngestionUrl,
+		response, err := http.Post(warlockAiServiceBaseUrl+warlockAiApiPathPrefix+warlockAiApiVersion+documentIngestionUrl,
 			"application/json", bytes.NewBuffer(jsonData))
 		if err != nil {
 			log.Printf("Failed to send request to Warlock AI service: %v", err.Error())
