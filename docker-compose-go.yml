@@ -18,8 +18,7 @@ services:
 
 volumes:
   shared-filestore:
-    name: shared-filestore
-    driver: local
+    external: true
 
 networks:
   warlock-compose-fs_warlock-network:

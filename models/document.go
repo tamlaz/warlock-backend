@@ -9,5 +9,6 @@ type Document struct {
 	SubjectId    uint   `gorm:"notnull"`
 	TopicId      uint   `gorm:"notnull"`
 	DocumentType string `gorm:"notnull"`
+	IsIngested   bool
 	CreatedAt    time.Time
 }

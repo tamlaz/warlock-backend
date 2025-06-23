@@ -1,8 +1,12 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"warlock-backend/config"
+	"warlock-backend/models"
+
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,10 +17,25 @@ func DocumentIngestionCallback() gin.HandlerFunc {
 			DocumentId uint `json:"document_id"`
 		}
 
+		var document models.Document
+		if err := config.DB.Where("id = ?", input.DocumentId).First(&document).Error; err != nil {
+			ctx.JSON(http.StatusInternalServerError, "No document found with given ID: "+fmt.Sprint(input.DocumentId))
+			return
+		}
+
+		document.IsIngested = true
+		if err := config.DB.Model(&document).Update("is_ingested", document.IsIngested).Error; err != nil {
+			ctx.JSON(http.StatusInternalServerError, "Error during setting is_ingested on document with ID: "+fmt.Sprint(input.DocumentId))
+			log.Printf("Error during setting is_ingested on document with ID %v: %v", input.DocumentId, err.Error())
+			return
+		}
+
 		if err := ctx.BindJSON(&input); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid payload"})
 			return
 		}
+
+		log.Printf("Document %v successfully ingested", document.FileName)
 
 		message := gin.H{
 			"topic":   "ingestion-success",
