@@ -13,8 +13,17 @@ func DocumentIngestionCallback() gin.HandlerFunc {
 			DocumentId uint `json:"document_id"`
 		}
 
-		config.BroadcastToTopic("ingestion-success", gin.H{"documentId": input.DocumentId})
+		if err := ctx.BindJSON(&input); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid payload"})
+			return
+		}
 
-		ctx.JSON(http.StatusOK, nil)
+		message := gin.H{
+			"topic":   "ingestion-success",
+			"payload": gin.H{"documentId": input.DocumentId},
+		}
+		config.BroadcastToTopic("ingestion-success", message)
+
+		ctx.JSON(http.StatusOK, gin.H{"status": "ok"})
 	}
 }
