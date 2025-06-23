@@ -53,6 +53,7 @@ func main() {
 	router.GET("api/go/v1/get-conversation-history", controllers.GetConversationHistory())
 	router.GET("api/go/v1/get-subjects", controllers.GetSubjects())
 	router.GET("api/go/v1/get-topics", controllers.GetTopics())
+	router.GET("api/go/v1/get-ingested-documents", controllers.GetIngestedDocuments())
 
 	log.Println("Starting server on port 8080...")
 	router.Run(":8080")
