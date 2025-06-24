@@ -18,7 +18,7 @@ type IngestedDocument struct {
 func GetIngestedDocuments() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		userId, err := strconv.Atoi(ctx.Query("subjectId"))
+		userId, err := strconv.Atoi(ctx.Query("userId"))
 		if err != nil {
 			errorMessage := "Error fetching ingested documents"
 			ctx.JSON(http.StatusInternalServerError, errorMessage)
