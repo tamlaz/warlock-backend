@@ -32,5 +32,6 @@ func GetIngestedDocuments() gin.HandlerFunc {
 			}
 		}
 
+		ctx.JSON(http.StatusOK, ingestedDocuments)
 	}
 }
