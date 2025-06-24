@@ -86,6 +86,7 @@ func SaveDocument() gin.HandlerFunc {
 			SubjectId:    uint(subjectId),
 			TopicId:      uint(topicId),
 			DocumentType: documentType,
+			UserId:       claims.UserID,
 		}
 		if err := config.DB.Create(&document).Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file metadata"})

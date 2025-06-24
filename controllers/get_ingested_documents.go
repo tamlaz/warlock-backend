@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"strconv"
 	"warlock-backend/config"
 	"warlock-backend/models"
 
@@ -17,8 +18,15 @@ type IngestedDocument struct {
 func GetIngestedDocuments() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
+		userId, err := strconv.Atoi(ctx.Query("subjectId"))
+		if err != nil {
+			errorMessage := "Error fetching ingested documents"
+			ctx.JSON(http.StatusInternalServerError, errorMessage)
+			log.Printf("%v: %v", errorMessage, err.Error())
+			return
+		}
 		var documents []models.Document
-		if err := config.DB.Where("is_ingested = true").Find(&documents).Error; err != nil {
+		if err := config.DB.Where("is_ingested = true AND user_id = ?", int(userId)).Find(&documents).Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, "Error fetching ingested documents.")
 			log.Printf("Error fetching ingested documents: %v", err.Error())
 			return
